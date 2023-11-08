@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration with Password and Phone Number Validation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .flash {
+            background-color: #007BFF;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            width: 100%;
+            position: absolute;
+            top: 0;
+        }
+
+        form {
+            max-width: 400px;
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            font-size: 16px;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="tel"]:focus,
+        input[type="password"]:focus {
+            border: 1px solid #007BFF;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 3px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        input:invalid {
+            border: 2px solid red;
+        }
+
+        input:valid {
+            border: 2px solid green;
+        }
+
+        #password-message {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+        }
+
+        #password-message p {
+            margin: 5px 0;
+        }
+
+        #password-message .valid {
+            color: green;
+        }
+
+        #password-message .invalid {
+            color: red;
+        }
+
+        .invalid-message {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="flash">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class=flashes>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <form method="POST">
+        <h1>User Registration</h1>
+        <label for="first">First Name:</label>
+        <input type="text" name="first" id="first" required>
+
+        <label for="last">Last Name:</label>
+        <input type="text" name="last" id="last" required>
+
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" required>
+
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required>
+
+        <label for="mobileNumber">Mobile Number (10 digits):</label>
+        <input type="tel" id="mobileNumber" name="phno" pattern="[0-9]{10}" required>
+        <div id="phone-message" class="invalid-message"></div>
+
+        <label for="password">Password:</label>
+        <div style="display: flex;">
+            <input type="password" name="password" id="password" required>
+            <input type="checkbox" id="showPassword"> Show Password
+        </div>
+        <div id="password-message">
+            <p>Password must meet the following criteria:</p>
+            <ul>
+                <li class="invalid" id="length">8 to 12 characters</li>
+                <li class="invalid" id="lowercase">At least one lowercase letter</li>
+                <li class="invalid" id="uppercase">At least one uppercase letter</li>
+                <li class="invalid" id="number">At least one number</li>
+                <li class="invalid" id="special">At least one special character</li>
+            </ul>
+        </div>
+
+        <button type="submit" id="submit-button" disabled>Submit</button>
+    </form>
+
+    <script>
+        const phoneNumberField = document.getElementById("mobileNumber");
+        const phoneNumberMessage = document.getElementById("phone-message");
+        const phoneNumberPattern = /^[0-9]{10}$/; // Match 10 digits
+
+        phoneNumberField.addEventListener("input", function () {
+            const phoneNumber = phoneNumberField.value;
+
+            if (phoneNumberPattern.test(phoneNumber)) {
+                phoneNumberMessage.textContent = ""; // Clear the error message
+                phoneNumberMessage.classList.remove("invalid-message"); // Remove invalid style
+                phoneNumberField.setCustomValidity(""); // Clear the browser's validation message
+            } else {
+                phoneNumberMessage.textContent = "Please enter a 10-digit number."; // Display error message
+                phoneNumberMessage.classList.add("invalid-message"); // Add invalid style
+                phoneNumberField.setCustomValidity("Please enter a 10-digit number."); // Set custom validation message
+            }
+        });
+
+        // Optional: Prevent form submission when the phone number is invalid
+        document.querySelector("form").addEventListener("submit", function (e) {
+            if (!phoneNumberPattern.test(phoneNumberField.value)) {
+                e.preventDefault(); // Prevent form submission
+                phoneNumberMessage.textContent = "Please enter a 10-digit number before submitting."; // Display error message
+                phoneNumberMessage.classList.add("invalid-message"); // Add invalid style
+            }
+        });
+
+        const passwordField = document.getElementById("password");
+        const passwordMessage = document.getElementById("password-message");
+        const length = document.getElementById("length");
+        const lowercase = document.getElementById("lowercase");
+        const uppercase = document.getElementById("uppercase");
+        const number = document.getElementById("number");
+        const special = document.getElementById("special");
+        const submitButton = document.getElementById("submit-button");
+        const showPasswordCheckbox = document.getElementById("showPassword");
+
+        passwordField.addEventListener("input", function () {
+            const password = passwordField.value;
+
+            length.classList.toggle("valid", password.length >= 8 && password.length <= 12);
+            lowercase.classList.toggle("valid", /[a-z]/.test(password));
+            uppercase.classList.toggle("valid", /[A-Z]/.test(password));
+            number.classList.toggle("valid", /\d/.test(password));
+            special.classList.toggle("valid", /[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/.test(password));
+
+            const validCount = document.querySelectorAll("#password-message .valid").length;
+            const criteriaCount = 5; // Number of criteria to meet
+
+            if (validCount === criteriaCount) {
+                passwordMessage.style.display = "none";
+                submitButton.disabled = false;
+            } else {
+                passwordMessage.style.display = "block";
+                submitButton.disabled = true;
+            }
+        });
+
+        showPasswordCheckbox.addEventListener("change", function () {
+            if (showPasswordCheckbox.checked) {
+                passwordField.type = "text";
+            } else {
+                passwordField.type = "password";
+            }
+        });
+    </script>
+</body>
+</html>
+

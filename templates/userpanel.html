@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Include Bootstrap CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<!-- Include Font Awesome icons CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        .navbar {
+    background-color: #333;
+    overflow: hidden;
+    text-align: left; /* Align links to the right */
+    padding: 10px 100;
+}
+
+.navbar a {
+    display: inline-block; /* Display links in a row */
+    color: white;
+    padding: 15px 110px; /* Add padding for spacing */
+    text-decoration: none;
+}
+
+.navbar a:hover {
+    background-color: #555;
+}
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .slideshow-container {
+            position: relative;
+            max-width: 100%;
+            overflow: hidden;
+        }
+
+        .slide {
+            display: none;
+            width: 100%;
+            height: 500px;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .slide h2 {
+            text-align: center;
+            color: white;
+            padding: 20px;
+        }
+
+        .prev, .next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 30px;
+            font-weight: bold;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .next {
+            right: 0;
+        }
+
+        .dots {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .dot {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            margin: 0 5px;
+            background-color: #888;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .dot.active {
+            background-color: #f2f2f2;
+        }
+
+        .slide-content {
+            position: absolute;
+            top: 50%;
+            left: 500px;
+            transform: translateY(-50%);
+            color: rgb(0, 0, 0);
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        .slide-content p {
+            margin: 0;
+        }
+
+        .button {
+            display: inline-block;
+            top: 5px;
+            padding: 10px 20px;
+            background-color: #000000;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .parallax {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            min-height: 400px;
+        }
+
+        .parallax1 {
+            background-image: url('https://img.freepik.com/premium-vector/content-writing-paper-sheet-with-hand-holding-pen-writer-journalist-author-copywriter-concept-illustration_270158-452.jpg?size=626&ext=jpg&ga=GA1.1.1667490823.1679980570&semt=sph');
+        }
+
+        .parallax2 {
+            background-image: url('https://img.freepik.com/free-photo/collage-with-people-hiking-full-shot_23-2150385890.jpg?size=626&ext=jpg&ga=GA1.1.1667490823.1679980570');
+        }
+
+        
+
+        .article-content {
+            padding: 30px;
+            text-align: center;
+            background-color: white;
+
+
+        }
+
+        /* Style for the site footer */
+.site-footer {
+    background-color: #333;
+    color: #fff;
+    padding: 20px 0;
+}
+
+.site-footer h3 {
+    color: #fff;
+}
+
+.site-footer p {
+    color: #bbb;
+}
+
+.site-footer ul {
+    list-style: none;
+    padding: 0;
+}
+
+.site-footer ul li {
+    margin-bottom: 10px;
+}
+
+.site-footer a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 24px;
+}
+
+/* Add your custom styles for the footer as needed */
+
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="{{url_for('userpanel')}}">Home</a>
+        <a href="{{ url_for('my_article') }}">My article</a>
+        <a class="nav-link" href="#about" id="go">about</a>
+        <a class="nav-link" href="#contact" id="go">Contact</a>
+        
+    </div>
+    
+    <div class="slideshow-container">
+        <div class="slide" style="background-image: url('https://img.freepik.com/premium-psd/double-exposure-effect_95007-585.jpg?size=626&ext=jpg&ga=GA1.1.1667490823.1679980570&semt=ais');">
+            <div class="slide-content">
+                <a href="{{ url_for('my_article') }}" class="button">create your article</a>
+            </div>
+        </div>
+
+        <div class="slide" style="background-image: url('https://img.freepik.com/free-psd/nature-banner-template-design_23-2149411233.jpg?size=626&ext=jpg&ga=GA1.1.1667490823.1679980570&semt=ais');">
+            <div class="slide-content">
+                <a href="{{ url_for('my_article') }}" class="button">create your article</a>
+            </div>
+        </div>
+
+        <div class ="slide" style="background-image: url('https://img.freepik.com/premium-psd/text-masking-portrait-photo-effect-mockup_117023-2418.jpg?size=626&ext=jpg&ga=GA1.1.1667490823.1679980570&semt=aiss');">
+            <div class="slide-content">
+                <a href="{{ url_for('my_article') }}" class="button">create your article</a>
+            </div>
+        </div>
+
+        <!-- Add more slides as needed -->
+
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    </div>
+
+    <div class="dots">
+        <span class="dot" onclick="currentSlide(1)"></span>
+        <span class="dot" onclick="currentSlide(2)"></span>
+        <span class="dot" onclick="currentSlide(3)"></span>
+        <!-- Add more dots for additional slides -->
+    </div>
+
+    <div class="parallax parallax1"></div>
+
+    <div id="about">
+    <div class="article-content">
+        <h1>About Us</h1>
+        <p>Welcome to hundreds of the best articles on self-improvement, productivity, relationships, and living a better life. You can browse the articles by topic, by date, or search by keyword below.
+        This page shares my best articles to read on topics like learning, decision-making, wealth, creativity, productivity, and more.</p>
+        <p>Articles might be written by marketing or public relations departments to communicate an organization's thought leadership while also providing relevant industry information.</p>
+        <!-- Your content for section 1 -->
+    </div>
+    </div>
+    <footer class="site-footer">
+        <div id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>Contact Information</h3>
+                    <p>Email: psoorya522@gmail.com</p>
+                    <p>Phone: +91 9603256474</p>
+                </div>
+                <div class="col-md-4">
+                    <h3>Quick Links</h3>
+                    <li>
+                        <a href="{{url_for('userpanel')}}">Home</a>
+                        <a class="nav-link" href="#" id="go">Blog</a>
+                        <a class="nav-link" href="#about" id="go">About us</a>
+                        <a class="nav-link" href="#contact" id="go">contact us</a>
+                    </li>
+                </div>
+                <div class="col-md-4">
+                    <h3>Follow Us</h3>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <p>&copy; 2023 suyra Website</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+
+    <script>
+        let slideIndex = 1;
+        showSlides();
+    
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+        }
+    
+        function currentSlide(n) {
+            showSlides(slideIndex = n);
+        }
+    
+        function showSlides() {
+            let slides = document.getElementsByClassName("slide");
+            let dots = document.getElementsByClassName("dot");
+            if (slideIndex > slides.length) {
+                slideIndex = 1;
+            }
+            if (slideIndex < 1) {
+                slideIndex = slides.length;
+            }
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            for (let i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            slides[slideIndex - 1].style.display = "block";
+            dots[slideIndex - 1].className += " active";
+            slideIndex++;
+            setTimeout(showSlides, 1900); // Change slides every 5 seconds
+        }
+    </script>
+</body>
+</html>

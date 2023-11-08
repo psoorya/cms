@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<style>
+
+    /* Add your styles to the form and the container as needed */
+.form-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #000000;
+    color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+}
+
+#article-form {
+    text-align: left;
+}
+
+#article-form label, #article-form input, #article-form textarea {
+    display: block;
+    margin-bottom: 10px;
+}
+
+#article-form button {
+    background-color: #0074D9;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+/* Add your styles to the form and the container as needed */
+/* ... Other styles ... */
+
+.flex-card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 10px;
+    width: 300px;
+    text-align: center;
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
+}
+
+.flex-card img {
+    max-width: 100%;
+    height: auto;
+}
+
+.read-more {
+    display: block;
+    margin-top: 10px;
+    color: #0074D9;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.article-details {
+    display: none;
+}
+
+</style>
+<body>
+    <div class="form-container">
+        <h2>Enter Details</h2>
+        <form id="article-form">
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" required>
+            
+            <label for="information">Information:</label>
+            <textarea id="information" name="information" required></textarea>
+            
+            <label for="image">Image URL:</label>
+            <input type="text" id="image" name="image" required>
+            
+            <button type="submit">Create Flex Box</button>
+            <button><a href="{{url_for('my_article')}}" class="button">Back</a></button>
+        </form>
+    </div>
+
+    <div class="flex-container" id="flex-container">
+        <!-- Flex boxes will be displayed here -->
+        <div class="flex-card" id="flex-box-1">
+            <h2>Title 1</h2>
+            <img src="image-url-1" alt="Title 1">
+            <p>Information 1</p>
+            <a href="#" class="read-more" onclick="viewArticle('flex-box-1')">View</a>
+            <a href="#" class="read-more" onclick="updateArticle(1)">Update</a>
+            <a href="#" class="read-more" onclick="deleteArticle(1)">Delete</a>
+            <div class="article-details">
+                <!-- Display article details here -->
+                <p>This is the detailed information about the article.</p>
+                <button class="read-more" onclick="hideArticleDetails('flex-box-1')">Close</button>
+            </div>
+        </div>
+
+        <!-- You can add more flex boxes here for other articles -->
+    </div>
+
+    <script>
+        function viewArticle(flexBoxId) {
+            const articleDetails = document.querySelector(`#${flexBoxId} .article-details`);
+            articleDetails.style.display = 'block'; // Display the article details
+        }
+
+        function hideArticleDetails(flexBoxId) {
+            const articleDetails = document.querySelector(`#${flexBoxId} .article-details`);
+            articleDetails.style.display = 'none'; // Hide the article details
+        }
+
+        function updateArticle(articleId) {
+            // Redirect to the update page with the article ID
+            window.location.href = `/update_article/${articleId}`;
+        }
+
+        function deleteArticle(articleId) {
+            if (confirm('Are you sure you want to delete this article?')) {
+                // Make an AJAX request to delete the article or use a form submission
+                // After deleting, you can remove the flex box from the page
+                const flexBox = document.getElementById(`flex-box-${articleId}`);
+                flexBox.style.display = 'none'; // Hide the flex box
+            }
+        }
+
+        // Sample code for adding new flex boxes after form submission (you can adapt this to your backend)
+        document.getElementById('article-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const title = document.getElementById('title').value;
+            const information = document.getElementById('information').value;
+            const image = document.getElementById('image').value;
+
+            if (title && information && image) {
+                const flexContainer = document.getElementById('flex-container');
+                const articleId = Math.floor(Math.random() * 1000); // Generate a unique ID
+
+                const flexBox = document.createElement('div');
+                flexBox.classList.add('flex-card');
+                flexBox.id = `flex-box-${articleId}`;
+                flexBox.innerHTML = `
+                    <h2>${title}</h2>
+                    <img src="${image}" alt="${title}">
+                    <p>${information}</p>
+                    <a href="#" class="read-more" onclick="viewArticle('flex-box-${articleId}')">View</a>
+                    <a href="#" class="read-more" onclick="updateArticle(${articleId})">Update</a>
+                    <a href="#" class="read-more" onclick="deleteArticle(${articleId})">Delete</a>
+                    <div class="article-details">
+                        <!-- Display article details here -->
+                        <p>This is the detailed information about the article.</p>
+                        <button class="read-more" onclick="hideArticleDetails('flex-box-${articleId}')">Close</button>
+                    </div>
+                `;
+
+                flexContainer.appendChild(flexBox);
+
+                // Clear the form
+                document.getElementById('title').value = '';
+                document.getElementById('information').value = '';
+                document.getElementById('image').value = '';
+            } else {
+                alert('Please fill in all fields.');
+            }
+        });
+    </script>
+</body>
+</html>

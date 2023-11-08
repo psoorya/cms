@@ -1,0 +1,103 @@
+<!-- Inside update_article.html -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+        <script src="{{ url_for('static', filename='script.js') }}"></script>
+    </head>
+    <style>
+        /* styles.css */
+body {
+    background-image: url('https://img.freepik.com/premium-photo/update-software-computer-program-upgrade_218381-10859.jpg?size=626&ext=jpg&ga=GA1.1.1667490823.1679980570&semt=sph');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    color: #fff;
+    padding: 20px;
+}
+
+h1 {
+    font-size: 28px;
+}
+
+form {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 25px;
+    border-radius: 10px;
+    display: inline-block;
+    text-align: left;
+    margin: 20px auto;
+}
+
+label {
+    display: block;
+    margin: 10px 0;
+    color: #fff;
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: none;
+    border-radius: 5px;
+}
+
+button[type="submit"] {
+    background-color: #000000;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+a {
+    text-decoration: none;
+    color: #4c7aaf;
+}
+
+/* Add additional styling as needed */
+
+    </style>
+<body>
+    <h1>Update Article</h1>
+    <form method="POST">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" value="{{ article.title }}" required>
+        
+        <label for="information">Information:</label>
+        <textarea id="information" name="information" required>{{ article.information }}</textarea>
+        
+        <label for="image">Image URL:</label>
+        <input type="text" id="image" name="image" value="{{ article.image }}" required>
+        
+        <button type="submit">Update Article</button>
+    </form>
+
+    <a href="{{ url_for('list_notes') }}">Back to Articles</a>
+</body>
+<script>
+    // script.js
+const inputFields = document.querySelectorAll('input[type="text"], textarea');
+
+inputFields.forEach((field) => {
+    field.addEventListener('focus', () => {
+        field.previousElementSibling.style.transform = 'translateY(-20px)';
+        field.previousElementSibling.style.fontSize = '12px';
+    });
+
+    field.addEventListener('blur', () => {
+        if (field.value === '') {
+            field.previousElementSibling.style.transform = 'translateY(0)';
+            field.previousElementSibling.style.fontSize = '16px';
+        }
+    });
+});
+
+</script>
+</html>

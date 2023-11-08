@@ -1,0 +1,17 @@
+<!-- Inside view_article.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Add your styles here if needed -->
+</head>
+<body>
+    <h1>{{ article.title }}</h1>
+    <img src="{{ article.image }}" alt="{{ article.title }}">
+    <p>{{ article.information }}</p>
+    
+    <a href="{{ url_for('update_article', article_id=article.id) }}">Update Article</a>
+    <a href="{{ url_for('delete_article', article_id=article.id) }}">Delete Article</a>
+    
+    <a href="{{ url_for('list_notes') }}">Back to Articles</a>
+</body>
+</html>
